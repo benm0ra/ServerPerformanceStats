@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Bash script provides a summary of system resource usage, including CPU, memory, and disk usage, as well as the top processes consuming these resources.
+This Bash script provides a summary of system resource usage, including CPU, memory, and disk usage, as well as the top processes consuming these resources for https://roadmap.sh/projects/server-stats Devops projects.
 
 ## Script Details
 
