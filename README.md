@@ -1,12 +1,14 @@
-# System Resource Usage Summary Script
+# server-stats.sh
+
+A Bash script that prints a quick snapshot of a Linux server's resource usage: CPU, memory, disk, and the top processes by CPU and memory.
 
 ## Overview
 
-This Bash script provides a summary of system resource usage, including CPU, memory, and disk usage, as well as the top processes consuming these resources for https://roadmap.sh/projects/server-stats Devops projects.
+Built for the [roadmap.sh Server Performance Stats](https://roadmap.sh/projects/server-stats) DevOps project.
 
 ## Script Details
 
-- **Author**: Ben  
+- **Author**: Benjamin Morales  
 - **Date**: April 2025  
 
 ## Features
@@ -20,65 +22,20 @@ The script outputs the following information:
 
 ## Prerequisites
 
-- A Unix-based operating system (Linux or macOS).
+- Linux. The script relies on GNU/procps versions of `top`, `free`, `df --total`, and `ps --sort`, so it won't run unmodified on macOS.
 - `bash` shell.
 - Basic utilities such as `top`, `free`, `df`, and `ps`.
 
 ## Usage
 
-1. Copy the script to your local machine and save it as `performance_summary.sh`.
-2. Make the script executable:
-   ```bash
-   chmod +x performance_summary.sh
-   ```
-3. Run the script:
-   ```bash
-   ./performance_summary.sh
-   ```
-
-## Script Code
-
 ```bash
-#!/bin/bash
-
-# Script: System Resource Usage Summary
-# Author: Ben
-# Date: April 2025
-
-echo "====================================="
-echo "       System Resource Summary       "
-echo "====================================="
-
-# 1. Total CPU Usage
-echo "1. Total CPU Usage:"
-CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8 "%"}')
-echo "   Total CPU Usage: $CPU_USAGE"
-echo ""
-
-# 2. Total Memory Usage (Free vs Used including percentage)
-echo "2. Total Memory Usage:"
-MEMORY_STATS=$(free -m | awk 'NR==2{printf "   Used: %sMB (%.2f%%), Free: %sMB (%.2f%%)\n", $3, $3*100/$2, $4, $4*100/$2}')
-echo "$MEMORY_STATS"
-echo ""
-
-# 3. Total Disk Usage (Free vs Used including percentage)
-echo "3. Total Disk Usage:"
-DISK_STATS=$(df -h --total | grep "total" | awk '{printf "   Used: %s (%s), Free: %s\n", $3, $5, $4}')
-echo "$DISK_STATS"
-echo ""
-
-# 4. Top 5 Processes by CPU Usage
-echo "4. Top 5 Processes by CPU Usage:"
-ps -eo pcpu,pid,user,args --sort=-pcpu | head -n 6 | awk 'NR>1 {printf "   CPU: %s%% | PID: %s | User: %s | Command: %s\n", $1, $2, $3, $4}'
-echo ""
-
-# 5. Top 5 Processes by Memory Usage
-echo "5. Top 5 Processes by Memory Usage:"
-ps -eo pmem,pid,user,args --sort=-pmem | head -n 6 | awk 'NR>1 {printf "   MEM: %s%% | PID: %s | User: %s | Command: %s\n", $1, $2, $3, $4}'
-echo ""
-
-echo "====================================="
+git clone https://github.com/benm0ra/ServerPerformanceStats.git
+cd ServerPerformanceStats
+chmod +x server-stats.sh
+./server-stats.sh
 ```
+
+See [`server-stats.sh`](server-stats.sh) for the full source.
 
 ## Example Output
 
